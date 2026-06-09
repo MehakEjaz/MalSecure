@@ -2,28 +2,25 @@
 
 <img width="788" height="528" alt="b08b8a9a-b529-4279-9db4-33bce4ec938c" src="https://github.com/user-attachments/assets/32069584-11ed-4c51-a136-27a040602c56" />
 
-### Smart Malware Detection and Classification Using Static, ML-Based Behavioral, and Heuristic Analysis
+### MALSECURE: Smart Malware Detection and Classification Using Static, ML-Based Behavioral, and Heuristic Analysis
 
 <table>
   <!-- Row 1: 3 Logos -->
   <tr>
     <td align="center" valign="middle">
-      <a href="#"><img src="https://github.com/user-attachments/assets/86dfcc7e-4c2c-4794-aaed-0891f10151bf" width="120" alt="VirusTotal" /></a>
+      <a href="#"><img src="https://github.com/user-attachments/assets/937a9943-d0b2-4ad0-a3bf-aa5622713f73" width="200" alt="NED University" /></a>
     </td>
     <td align="center" valign="middle">
-      <a href="#"><img src="https://github.com/user-attachments/assets/2a1dbb62-4575-44bb-a6d7-4257c5c14445" width="100" alt="EMBER 2024" /></a>
-    </td>
-    <td align="center" valign="middle">
-      <a href="#"><img src="https://img.shields.io/badge/Intel-VirusTotal-blue" width="130" alt="VirusTotal Intel" /></a>
+      <a href="#"><img src="https://github.com/user-attachments/assets/2a1dbb62-4575-44bb-a6d7-4257c5c14445" width="200" alt="EMBER 2024" /></a>
     </td>
   </tr>
   <!-- Row 2: 2 Logos -->
   <tr>
     <td align="center" valign="middle">
-      <a href="#"><img src="https://github.com/user-attachments/assets/7828778e-458a-42a5-a478-92569148e1f3" width="110" alt="MITRE ATT&CK" /></a>
+      <a href="#"><img src="https://github.com/user-attachments/assets/7828778e-458a-42a5-a478-92569148e1f3" width="200" alt="MITRE ATT&CK" /></a>
     </td>
     <td align="center" valign="middle" colspan="2">
-      <a href="#"><img src="https://github.com/user-attachments/assets/937a9943-d0b2-4ad0-a3bf-aa5622713f73" width="90" alt="NED University" /></a>
+      <a href="#"><img src="https://github.com/user-attachments/assets/86dfcc7e-4c2c-4794-aaed-0891f10151bf" width="200" alt="VirusTotal" /></a>
     </td>
   </tr>
 </table>
