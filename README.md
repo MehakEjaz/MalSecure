@@ -2,17 +2,17 @@
 
 <img width="788" height="528" alt="b08b8a9a-b529-4279-9db4-33bce4ec938c" src="https://github.com/user-attachments/assets/32069584-11ed-4c51-a136-27a040602c56" />
 
-# 🛡️ MalSecure
+
+https://github.com/user-attachments/assets/02e51816-20d8-48ba-9ccb-783be5ada7e7
+
 
 ### Smart Malware Detection and Classification Using Static, ML-Based Behavioral, and Heuristic Analysis
 
-[![Python](https://img.shields.io/badge/Python-3.10%2B-blue?logo=python&logoColor=white)](https://www.python.org/)
-[![Streamlit](https://img.shields.io/badge/UI-Streamlit-FF4B4B?logo=streamlit&logoColor=white)](https://streamlit.io/)
-[![EMBER 2024](https://img.shields.io/badge/ML%20Model-EMBER%202024-green)](#)
+[![VirusTotal](<img width="860" height="520" alt="virustotal-move-stirs-conflict-in-antivirus-market-showcase_image-6-a-9098" src="https://github.com/user-attachments/assets/86dfcc7e-4c2c-4794-aaed-0891f10151bf" />)
+[![EMBER 2024](<img width="2834" height="2834" alt="eor0Szg" src="https://github.com/user-attachments/assets/2a1dbb62-4575-44bb-a6d7-4257c5c14445" />)](#)
 [![VirusTotal](https://img.shields.io/badge/Intel-VirusTotal-blue)](#)
-[![MITRE ATT&CK](https://img.shields.io/badge/Framework-MITRE%20ATT%26CK-red)](#)
-[![License](https://img.shields.io/badge/License-Academic-lightgrey)](#)
-[![NED University](https://img.shields.io/badge/NED%20University-CSIT%20Dept-maroon)](#)
+[![MITRE ATT&CK](<img width="600" height="600" alt="mitre-attack-logo-png_seeklogo-444443" src="https://github.com/user-attachments/assets/7828778e-458a-42a5-a478-92569148e1f3" />)](#)
+[![NED University](<img width="225" height="225" alt="images" src="https://github.com/user-attachments/assets/937a9943-d0b2-4ad0-a3bf-aa5622713f73" />)](#)
 
 **Final Year Project — Department of Computer Science & IT, NED University of Engineering & Technology**
 
@@ -20,9 +20,9 @@ Group: CS-22054 | Batch: 2022 | Supervised by Dr. Muhammad Mubashir Khan
 
 ---
 
-<!-- 📸 INSERT PROJECT DEMO GIF OR SCREENSHOT OF LANDING PAGE HERE -->
-<!-- Recommended: A GIF or screenshot of the MalSecure dashboard -->
-<!-- Example: <img src="assets/demo.gif" alt="MalSecure Dashboard Demo" width="85%"> -->
+
+https://github.com/user-attachments/assets/0cf6b26b-b7e4-440e-9f88-dea6852f4f80
+
 
 </div>
 
