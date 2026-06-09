@@ -2,10 +2,6 @@
 
 <img width="788" height="528" alt="b08b8a9a-b529-4279-9db4-33bce4ec938c" src="https://github.com/user-attachments/assets/32069584-11ed-4c51-a136-27a040602c56" />
 
-
-https://github.com/user-attachments/assets/02e51816-20d8-48ba-9ccb-783be5ada7e7
-
-
 ### Smart Malware Detection and Classification Using Static, ML-Based Behavioral, and Heuristic Analysis
 
 [![VirusTotal](<img width="860" height="520" alt="virustotal-move-stirs-conflict-in-antivirus-market-showcase_image-6-a-9098" src="https://github.com/user-attachments/assets/86dfcc7e-4c2c-4794-aaed-0891f10151bf" />)
