@@ -4,11 +4,11 @@
 
 ### Smart Malware Detection and Classification Using Static, ML-Based Behavioral, and Heuristic Analysis
 
-[![VirusTotal](<img width="860" height="520" alt="virustotal-move-stirs-conflict-in-antivirus-market-showcase_image-6-a-9098" src="https://github.com/user-attachments/assets/86dfcc7e-4c2c-4794-aaed-0891f10151bf" />)
-[![EMBER 2024](<img width="2834" height="2834" alt="eor0Szg" src="https://github.com/user-attachments/assets/2a1dbb62-4575-44bb-a6d7-4257c5c14445" />)](#)
-[![VirusTotal](https://img.shields.io/badge/Intel-VirusTotal-blue)](#)
-[![MITRE ATT&CK](<img width="600" height="600" alt="mitre-attack-logo-png_seeklogo-444443" src="https://github.com/user-attachments/assets/7828778e-458a-42a5-a478-92569148e1f3" />)](#)
-[![NED University](<img width="225" height="225" alt="images" src="https://github.com/user-attachments/assets/937a9943-d0b2-4ad0-a3bf-aa5622713f73" />)](#)
+<a href="#"><img src="https://github.com/user-attachments/assets/86dfcc7e-4c2c-4794-aaed-0891f10151bf" width="860" height="520" alt="VirusTotal" /></a>
+<a href="#"><img src="https://github.com/user-attachments/assets/2a1dbb62-4575-44bb-a6d7-4257c5c14445" width="2834" height="2834" alt="EMBER 2024" /></a>
+<a href="#"><img src="https://img.shields.io/badge/Intel-VirusTotal-blue" alt="VirusTotal" /></a>
+<a href="#"><img src="https://github.com/user-attachments/assets/7828778e-458a-42a5-a478-92569148e1f3" width="600" height="600" alt="MITRE ATT&CK" /></a>
+<a href="#"><img src="https://github.com/user-attachments/assets/937a9943-d0b2-4ad0-a3bf-aa5622713f73" width="225" height="225" alt="NED University" /></a>
 
 **Final Year Project — Department of Computer Science & IT, NED University of Engineering & Technology**
 
