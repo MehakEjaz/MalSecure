@@ -1,0 +1,969 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="stack report-page">
+  <article class="glass report-hero">
+    <div class="report-hero-main">
+      <p class="report-tag">Analysis Workspace</p>
+      <h1>{{ job.sample_name }}</h1>
+      <p class="meta">
+        Mode: {{ job.preset_label }} | Created: {{ job.created_at_text }}
+        {% if job.started_at_text != '-' %}| Started: {{ job.started_at_text }}{% endif %}
+        {% if job.finished_at_text != '-' %}| Finished: {{ job.finished_at_text }}{% endif %}
+        {% if job.duration is not none %}| Duration: {{ job.duration }}s{% endif %}
+      </p>
+      <div class="report-chips">
+        <span class="status {% if job.status == 'completed' %}ok{% elif job.status == 'failed' %}bad{% elif job.status == 'running' %}run{% else %}queue{% endif %}">{{ job.status }}</span>
+        <span>Report: {{ job.report_file_label if job.report_file_label else 'N/A' }}</span>
+        {% if job.ai_file_label %}<span>AI Report: {{ job.ai_file_label }}</span>{% endif %}
+        {% if job.status == 'queued' and job.queue_position %}<span>Queue Position: #{{ job.queue_position }}</span>{% endif %}
+      </div>
+    </div>
+    <div class="report-hero-actions">
+      <a href="{{ url_for('index') }}" class="btn-secondary">New Analysis</a>
+      <a href="{{ url_for('jobs_dashboard') }}" class="btn-secondary">Queue Monitor</a>
+    </div>
+  </article>
+
+  {% if job.status in ['queued', 'running'] %}
+  <article class="glass report-stage report-stage-live">
+    <div class="progress-note">
+      <div class="spinner"></div>
+      {% if job.status == 'queued' %}
+      <span>Your analysis is queued. Waiting jobs: {{ job.queued_total }}</span>
+      {% else %}
+      <span>Analysis is running. This page refreshes automatically.</span>
+      {% endif %}
+    </div>
+  </article>
+  {% endif %}
+
+  {% if job.status == 'failed' %}
+  <article class="glass">
+    <h2>Execution Error</h2>
+    <pre class="console">{{ job.error_message if job.error_message else 'Analyzer returned an error.' }}</pre>
+  </article>
+  {% endif %}
+
+  {% if job.report_load_error and job.status in ['completed', 'failed'] %}
+  <article class="glass">
+    <h2>Report Read Error</h2>
+    <pre class="console">{{ job.report_load_error }}</pre>
+  </article>
+  {% endif %}
+
+  {% if job.status == 'completed' and job.report_loaded %}
+  {% set ai_text = job.ai_ui.ai_output if job.ai_ui.ai_output else job.report_ui.ai_output %}
+  {% set ai_iocs = job.ai_ui.ai_iocs if job.ai_ui.ai_iocs else job.report_ui.ai_iocs %}
+
+  {% if ai_text %}
+  <article class="glass report-section">
+    <h2>AI Analysis Narrative</h2>
+    <pre class="console ai-output">{{ ai_text }}</pre>
+  </article>
+  {% endif %}
+
+  {% if ai_iocs %}
+  <article class="glass report-section">
+    <h2>AI Extracted IOCs</h2>
+    <div class="signal-grid">
+      {% for ioc in ai_iocs %}{% if ioc.count and ioc.count > 0 %}
+      <section class="signal-card">
+        <header>
+          <h3>{{ ioc.kind }}</h3>
+          <span>{{ ioc.count }}</span>
+        </header>
+        <ul>
+          {% for value in ioc["values"] %}
+          <li>{{ value }}</li>
+          {% endfor %}
+        </ul>
+      </section>
+      {% endif %}{% endfor %}
+    </div>
+  </article>
+  {% endif %}
+
+  <section class="report-main stack">
+
+    {# ── BEHAVIORAL MODE ── #}
+    {% if job.report_ui.summary and job.preset_key == 'behavioral' %}
+
+    {% set heuristic_notes_list = [] %}
+    {% for panel in job.report_ui.extra_panels %}
+      {% if panel.title == "Trust & Behavioral Notes" %}
+        {% set heuristic_notes_list = panel.items %}
+      {% endif %}
+    {% endfor %}
+
+    <style>
+      /* ═══════════════════════════════════════════════
+         BEHAVIORAL REPORT — blue-tinted consistent style
+      ═══════════════════════════════════════════════ */
+
+      .beh-report { display: flex; flex-direction: column; gap: 1.25rem; }
+
+      .beh-card {
+        border: 1.5px solid rgba(91,141,217,0.25);
+        border-radius: 12px;
+        overflow: hidden;
+        background: rgba(91,141,217,0.06);
+      }
+
+      .beh-card-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: .9rem 1.35rem;
+        border-bottom: 1px solid rgba(91,141,217,0.2);
+        background: rgba(91,141,217,0.1);
+      }
+      .beh-card-title {
+        font-size: 15px;
+        font-weight: 600;
+        letter-spacing: 0;
+        text-transform: none;
+        color: var(--color-text-primary);
+        margin: 0;
+      }
+      .beh-card-badge {
+        font-size: 12px;
+        font-weight: 500;
+        color: var(--color-text-secondary);
+      }
+
+      .beh-row1 {
+        display: grid;
+        grid-template-columns: 1fr 220px;
+        gap: 1rem;
+        align-items: start;
+        padding: 1rem 1.35rem;
+      }
+
+      .beh-metrics-inner {
+        border: 1px solid rgba(91,141,217,0.22);
+        border-radius: 10px;
+        overflow: hidden;
+      }
+      .beh-metrics-sub-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: .5rem 1rem;
+        border-bottom: 1px solid rgba(91,141,217,0.15);
+        background: rgba(91,141,217,0.07);
+      }
+      .beh-metrics-sub-title {
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: .09em;
+        text-transform: uppercase;
+        color: var(--color-text-secondary);
+      }
+
+      .beh-metric {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: .58rem 1rem;
+        border-bottom: 1px solid rgba(91,141,217,0.12);
+        font-size: 13.5px;
+      }
+      .beh-metric:last-child { border-bottom: none; }
+      .beh-metric-lbl { color: var(--color-text-secondary); }
+      .beh-metric-val {
+        font-size: 13.5px;
+        font-weight: 500;
+        color: var(--color-text-primary);
+        text-align: right;
+      }
+      .beh-metric-val a  { color: #5b8dd9; text-decoration: none; }
+      .beh-metric-val a:hover { text-decoration: underline; }
+
+      .beh-pill {
+        display: inline-block;
+        font-size: 11px; font-weight: 600;
+        padding: 2px 8px;
+        border-radius: 5px;
+        margin: 1px 2px 1px 0;
+      }
+      .beh-pill-blue   { background: rgba(91,141,217,.2);  color: #7aabf0; }
+      .beh-pill-purple { background: rgba(160,100,220,.2); color: #c490f5; }
+      .beh-pill-teal   { background: rgba(50,180,160,.2);  color: #4dd8c4; }
+
+      .beh-gauge-inner {
+        border: 1px solid rgba(91,141,217,0.22);
+        border-radius: 10px;
+        overflow: hidden;
+      }
+      .beh-gauge-col {
+        display: flex; flex-direction: column;
+        align-items: center; gap: 10px;
+        padding: 1.35rem .5rem 1.25rem;
+      }
+      .beh-gauge-badge {
+        font-size: 13px; font-weight: 600;
+        padding: 5px 18px; border-radius: 20px;
+        background: #EAF3DE; color: #3B6D11;
+      }
+      .beh-gauge-phase { font-size: 11px; color: var(--color-text-secondary); letter-spacing: .04em; }
+
+      .heu-list  { padding: .25rem 0; }
+      .heu-step  {
+        display: flex; gap: .85rem; align-items: flex-start;
+        padding: .75rem 1.35rem;
+        border-bottom: 1px solid rgba(91,141,217,0.12);
+        font-size: 13.5px;
+      }
+      .heu-step:last-child { border-bottom: none; }
+      .heu-icon {
+        width: 26px; height: 26px; border-radius: 50%; flex-shrink: 0;
+        display: flex; align-items: center; justify-content: center;
+        font-size: 11px; font-weight: 700; margin-top: 1px;
+      }
+      .heu-icon-green { background: rgba(99,153,34,.22);   color: #8bc34a; }
+      .heu-icon-red   { background: rgba(226,75,74,.22);   color: #f07070; }
+      .heu-icon-amber { background: rgba(239,159,39,.22);  color: #f4c06a; }
+      .heu-icon-grey  { background: rgba(91,141,217,0.15); color: #7aabf0; }
+      .heu-text { flex: 1; }
+      .heu-text strong { font-weight: 600; color: var(--color-text-primary); display: block; }
+      .heu-text em {
+        font-style: normal; font-size: 12px;
+        color: var(--color-text-secondary);
+        display: block; margin-top: 3px; line-height: 1.5;
+      }
+
+      .beh-file-id-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 13.5px;
+      }
+      .beh-file-id-table thead tr {
+        background: rgba(91,141,217,0.1);
+        border-bottom: 1.5px solid rgba(91,141,217,0.22);
+      }
+      .beh-file-id-table th {
+        font-size: 10px; font-weight: 700;
+        letter-spacing: .1em; text-transform: uppercase;
+        color: var(--color-text-secondary);
+        padding: .7rem 1.35rem;
+        text-align: left;
+      }
+      .beh-file-id-table th + th {
+        border-left: 1px solid rgba(91,141,217,0.18);
+      }
+      .beh-file-id-table td {
+        padding: .95rem 1.35rem;
+        color: var(--color-text-primary);
+        font-family: monospace;
+        font-size: 13px;
+        word-break: break-all;
+        vertical-align: top;
+      }
+      .beh-file-id-table td + td {
+        border-left: 1px solid rgba(91,141,217,0.18);
+      }
+      .beh-file-id-plain { font-family: inherit !important; font-size: 13.5px !important; }
+
+      .beh-explain { padding: 1.15rem 1.35rem; }
+      .beh-explain p { font-size: 14px; color: var(--color-text-primary); line-height: 1.9; margin: 0; }
+
+      .cf-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px,1fr)); gap: .85rem; }
+      .cf-card {
+        border: 1px solid rgba(91,141,217,0.2);
+        border-radius: 10px; overflow: hidden;
+        background: rgba(91,141,217,0.04);
+      }
+      .cf-card-head {
+        display: flex; justify-content: space-between; align-items: center;
+        padding: .65rem 1rem;
+        border-bottom: 1px solid rgba(91,141,217,0.15);
+        background: rgba(91,141,217,0.08);
+      }
+      .cf-card-head h3 {
+        font-size: 11px; font-weight: 700;
+        letter-spacing: .06em; text-transform: uppercase;
+        margin: 0; color: var(--color-text-primary);
+      }
+      .cf-card-head span {
+        font-size: 11px; font-weight: 600;
+        background: rgba(91,141,217,.18); color: #7aabf0;
+        padding: 2px 9px; border-radius: 20px;
+      }
+      .cf-card ul { list-style: none; margin: 0; padding: .3rem 0; }
+      .cf-card ul li {
+        font-size: 12.5px; color: var(--color-text-secondary);
+        padding: .35rem 1rem;
+        border-bottom: 1px solid rgba(91,141,217,0.08);
+      }
+      .cf-card ul li:last-child { border-bottom: none; }
+      .cf-card.muted .cf-card-head { opacity: .7; }
+
+      @media (max-width: 680px) {
+        .beh-row1 { grid-template-columns: 1fr; padding: .75rem; }
+        .beh-file-id-table th,
+        .beh-file-id-table td { padding: .65rem 1rem; }
+      }
+    </style>
+
+    <article class="glass report-section">
+      <div class="beh-report">
+
+        {# ROW 1: Behavioral Metrics + Gauge #}
+        <div class="beh-card">
+          <div class="beh-card-header">
+            <span class="beh-card-title">Analysis Metrics &amp; Risk Score</span>
+          </div>
+          <div class="beh-row1">
+
+            <div class="beh-metrics-inner">
+              <div class="beh-card-header">
+                <span class="beh-card-title">Behavioral Metrics</span>
+                <a href="https://github.com/futurecomputing4ai/ember2024"
+                   target="_blank" rel="noopener"
+                   style="font-size:11px;color:#5b8dd9;text-decoration:none;">EMBER 2024 ↗</a>
+              </div>
+              <div class="beh-metrics-sub-head">
+                <span class="beh-metrics-sub-title">Model &amp; Pipeline Details</span>
+              </div>
+              <div class="beh-metric">
+                <span class="beh-metric-lbl">Model Used</span>
+                <span class="beh-metric-val" id="bm-model">—</span>
+              </div>
+              <div class="beh-metric">
+                <span class="beh-metric-lbl">Pipeline Stages</span>
+                <span class="beh-metric-val">
+                  <span class="beh-pill beh-pill-blue">PE Features</span>
+                  <span class="beh-pill beh-pill-purple">Packer</span>
+                  <span class="beh-pill beh-pill-teal">Behavior</span>
+                  {% for item in job.report_ui.summary %}{% if item.label == "Malware Family" and item.value != "N/A" and item.value != "-" %}<span class="beh-pill beh-pill-purple">Family</span>{% endif %}{% endfor %}
+                </span>
+              </div>
+              <div class="beh-metric">
+                <span class="beh-metric-lbl">Feature Vector</span>
+                <span class="beh-metric-val">2,381-dim EMBER</span>
+              </div>
+              <div class="beh-metric">
+                <span class="beh-metric-lbl">ML Raw Score</span>
+                <span class="beh-metric-val" id="bm-raw" style="font-family:monospace;">—</span>
+              </div>
+              <div class="beh-metric">
+                <span class="beh-metric-lbl">Behavior Score</span>
+                <span class="beh-metric-val" style="font-family:monospace;">
+                  {% for item in job.report_ui.summary %}{% if item.label == "Behavior Score" %}{{ item.value }}{% endif %}{% endfor %}
+                </span>
+              </div>
+              <div class="beh-metric">
+                <span class="beh-metric-lbl">Packer / Obfuscation</span>
+                <span class="beh-metric-val" style="font-family:monospace;">
+                  {% for item in job.report_ui.summary %}{% if item.label == "Packer/Obfuscation" %}{{ item.value }}{% endif %}{% endfor %}
+                </span>
+              </div>
+              {% for item in job.report_ui.summary %}
+  {% if item.label == "Malware Family" %}
+  <div class="beh-metric">
+    <span class="beh-metric-lbl">Family Cluster and Type</span>
+    <span class="beh-metric-val">
+      {{ item.value }} 
+      
+      {% if vt and vt.threat_label %}
+        / <span style="color: #f87171; font-weight: 600;">{{ vt.threat_label }}</span>
+      {% endif %}
+    </span>
+  </div>
+  {% endif %}
+{% endfor %}
+</div>
+
+            <div class="beh-gauge-inner">
+              <div class="beh-card-header">
+                <span class="beh-card-title">Risk Score</span>
+              </div>
+              <div class="beh-gauge-col">
+                <div style="position:relative;width:160px;height:160px;">
+                  <svg width="160" height="160" viewBox="0 0 160 160"
+                       style="transform:rotate(-90deg);" role="img" aria-label="Risk gauge">
+                    <circle cx="80" cy="80" r="70" fill="none"
+                            stroke="rgba(91,141,217,0.15)" stroke-width="5"/>
+                    <circle cx="80" cy="80" r="60" fill="none"
+                            stroke="rgba(91,141,217,0.18)" stroke-width="16"/>
+                    <circle id="gaugeBar" cx="80" cy="80" r="60" fill="none"
+                            stroke="#639922" stroke-width="16" stroke-linecap="round"
+                            stroke-dasharray="376.99" stroke-dashoffset="376.99"/>
+                    <circle cx="80" cy="80" r="51" fill="none"
+                            stroke="rgba(91,141,217,0.1)" stroke-width="1.5"/>
+                  </svg>
+                  <div style="position:absolute;inset:0;display:flex;flex-direction:column;
+                              align-items:center;justify-content:center;gap:2px;">
+                    <span id="gaugeNum" style="font-size:34px;font-weight:500;
+                           color:var(--color-text-primary);line-height:1;">0</span>
+                    <span style="font-size:10px;color:var(--color-text-secondary);
+                           text-transform:uppercase;letter-spacing:.06em;">/ 100</span>
+                  </div>
+                </div>
+                <div id="gaugeBadge" class="beh-gauge-badge">Trusted</div>
+                <div id="gaugePhase" class="beh-gauge-phase">ML raw score</div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        {# ROW 2: Heuristic Risk Factors #}
+        <div class="beh-card">
+          <div class="beh-card-header">
+            <span class="beh-card-title">Heuristic Risk Factors</span>
+            <span class="beh-card-badge">Applied to this file</span>
+          </div>
+          <div class="heu-list" id="heu-steps">
+            <div class="heu-step">
+              <div class="heu-icon heu-icon-grey">⏳</div>
+              <div class="heu-text"><strong>Evaluating trust factors&hellip;</strong></div>
+            </div>
+          </div>
+        </div>
+
+        {# ROW 3: File Identity table #}
+        {% set fi_target = namespace(value='—') %}
+        {% set fi_sha    = namespace(value='—') %}
+        {% set fi_name   = namespace(value='—') %}
+        {% for item in job.report_ui.summary %}
+          {% if item.label == 'Target Type' %}{% set fi_target.value = item.value %}{% endif %}
+          {% if item.label == 'SHA-256'     %}{% set fi_sha.value    = item.value %}{% endif %}
+          {% if item.label == 'Sample Name' or item.label == 'Filename' %}{% set fi_name.value = item.value %}{% endif %}
+        {% endfor %}
+
+        <div class="beh-card">
+          <div class="beh-card-header">
+            <span class="beh-card-title">File Identity</span>
+          </div>
+          <table class="beh-file-id-table">
+            <thead>
+              <tr>
+                <th>Target Type</th>
+                <th>SHA-256</th>
+                <th>Filename</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="beh-file-id-plain">{{ fi_target.value }}</td>
+                <td>{{ fi_sha.value }}</td>
+                <td class="beh-file-id-plain">{{ fi_name.value }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        {# ROW 4: Score Explanation #}
+        <div class="beh-card">
+          <div class="beh-card-header">
+            <span class="beh-card-title">Score Explanation</span>
+          </div>
+          <div class="beh-explain">
+            <p id="gaugeExplain">Analyzing&hellip;</p>
+          </div>
+        </div>
+
+      </div>
+    </article>
+
+    <script>
+    (function() {
+      var lbl;
+      var CIRC      = 2 * Math.PI * 60;
+      var bar       = document.getElementById('gaugeBar');
+      var numEl     = document.getElementById('gaugeNum');
+      var badge     = document.getElementById('gaugeBadge');
+      var phaseEl   = document.getElementById('gaugePhase');
+      var explain   = document.getElementById('gaugeExplain');
+      var heuSteps  = document.getElementById('heu-steps');
+      var bmRaw     = document.getElementById('bm-raw');
+      var bmModel   = document.getElementById('bm-model');
+
+      var mlRaw          = {{ job.report_ui.ml_raw | default(0) }};
+      var finalRisk      = {{ job.report_ui.final_risk_val | default(0) }};
+      var heuristicNotes = {{ heuristic_notes_list | tojson }};
+
+      var targetType = "{{ (job.report_ui.summary | selectattr('label','equalto','Target Type') | list | first | default({'value':'PE'})).value }}";
+
+      var modelMap = {
+        'Win32':'EMBER2024 Win32','Win64':'EMBER2024 Win64',
+        'DotNet':'EMBER2024 .NET','ELF':'EMBER2024 ELF',
+        'APK':'EMBER2024 APK','PDF':'EMBER2024 PDF','PE':'EMBER2024 PE'
+      };
+      if (bmModel) bmModel.textContent = modelMap[targetType] || 'EMBER2024 PE';
+      if (bmRaw)   bmRaw.textContent   = mlRaw + ' / 100';
+
+      function colorFor(s) {
+        if (s <= 0)  return '#639922';
+        if (s <= 15) return '#639922';
+        if (s <= 45) return '#EF9F27';
+        if (s <= 75) return '#BA7517';
+        return '#E24B4A';
+      }
+      function labelFor(s) {
+        if (s <= 0)  return ['Trusted',    '#EAF3DE', '#3B6D11'];
+        if (s <= 15) return ['Low risk',   '#EAF3DE', '#3B6D11'];
+        if (s <= 45) return ['Suspicious', '#FAEEDA', '#854F0B'];
+        if (s <= 75) return ['High risk',  '#FCEBEB', '#A32D2D'];
+        return              ['Malicious',  '#FCEBEB', '#791F1F'];
+      }
+      function setGauge(score, color) {
+        var offset = CIRC - (Math.max(0, score) / 100) * CIRC;
+        bar.style.strokeDashoffset = offset;
+        bar.style.stroke           = color;
+        numEl.textContent          = Math.round(score);
+        numEl.style.color          = color;
+      }
+
+      function buildHeuristicSteps(notes, ml, final) {
+        var steps = [];
+        var drop  = ml - final;
+
+        steps.push({
+          icon: 'ML', cls: 'heu-icon-grey',
+          html: '<strong>ML Base Score: ' + ml + '/100</strong>'
+              + '<em>EMBER 2024 extracted 2,381 features — byte n-grams, PE headers, imports, entropy, strings.</em>'
+        });
+
+        {% for item in job.report_ui.summary %}{% if item.label == "Behavior Score" %}
+        if (parseFloat("{{ item.value }}") > 0.5) {
+          steps.push({ icon: '+', cls: 'heu-icon-amber',
+            html: '<strong>Behavior Multiplier &times;1.25 applied</strong>'
+                + '<em>Behavior score ({{ item.value }}) exceeds 0.5 — elevated runtime risk pattern detected.</em>'
+          });
+        }
+        {% endif %}{% endfor %}
+
+        {% for item in job.report_ui.summary %}{% if item.label == "Packer/Obfuscation" %}
+        if (parseFloat("{{ item.value }}") > 0.7) {
+          steps.push({ icon: '+', cls: 'heu-icon-amber',
+            html: '<strong>Packer Multiplier &times;1.35 applied</strong>'
+                + '<em>Packer score ({{ item.value }}) exceeds 0.7 — obfuscation or compression detected.</em>'
+          });
+        }
+        {% endif %}{% endfor %}
+
+        var foundSignal = true;
+        
+
+        if (!foundSignal) {
+          steps.push({ icon: '—', cls: 'heu-icon-grey',
+            html: '<strong>Scoring Path — Special Trust Signal</strong>'
+                + '<em>If matching signature, known tool, or trusted publisher found. Final risk = weighted risk + h_adj. </em>'
+          });
+        }
+
+        var dropTxt = drop > 0
+          ? '&minus;' + Math.round(drop) + ' pts via trust rules applied'
+          : 'no reduction — default path';
+        steps.push({
+          icon: '=',
+          cls: final <= 15 ? 'heu-icon-green' : (final <= 45 ? 'heu-icon-amber' : 'heu-icon-red'),
+          html: '<strong>Final Risk Score: ' + final + '/100</strong>'
+              + '<em>' + dropTxt + '. Score clamped within [0, 100].</em>'
+        });
+        return steps;
+      }
+
+      function renderHeuristicSteps(steps) {
+        heuSteps.innerHTML = '';
+        steps.forEach(function(s, idx) {
+          var div = document.createElement('div');
+          div.className = 'heu-step';
+          div.style.cssText = 'opacity:0;transform:translateY(5px);transition:opacity .28s ease,transform .28s ease';
+          div.innerHTML =
+            '<div class="heu-icon ' + s.cls + '">' + s.icon + '</div>'
+          + '<div class="heu-text">' + s.html + '</div>';
+          heuSteps.appendChild(div);
+          setTimeout(function(el) {
+            el.style.opacity   = '1';
+            el.style.transform = 'translateY(0)';
+          }, 350 + idx * 110, div);
+        });
+      }
+
+      function buildExplanation(ml, final, notes) {
+        var drop  = ml - final;
+        var lines = [];
+        if (ml === 0 && final === 0) {
+          lines.push('The ML model assigned a negligible base score to this file.');
+        } else {
+          lines.push('The ML model initially scored this file at <strong>' + ml + '/100</strong> based on its binary structure, imported functions, and entropy profile.');
+        }
+        if (notes && notes.length) {
+          for (var i = 0; i < notes.length; i++) {
+            var n = String(notes[i]);
+            if (n.indexOf('Global Trust') !== -1)
+              lines.push('The file was identified as a known administration tool with a valid digital signature, triggering a global trust override that reduced the score to near zero.');
+            else if (n.indexOf('Trusted Publisher') !== -1)
+              lines.push('A verified Authenticode certificate from a trusted publisher was detected, confirming authenticity and applying a significant score reduction.');
+            else if (n.indexOf('Signature in System Path') !== -1)
+              lines.push('The file carries a valid OS signature in a protected system directory — strong indicators of legitimacy that capped the risk score.');
+            else if (n.indexOf('CRITICAL') !== -1)
+              lines.push('An unsigned binary was found in a system folder — a high-confidence indicator of tampering, reflected in the elevated final score.');
+            else if (n.indexOf('EICAR') !== -1)
+              lines.push('The EICAR test signature was detected. This is a standard antivirus test string and not indicative of a real threat.');
+          }
+        }
+        if (drop > 5)
+          lines.push('After applying contextual trust rules, the final risk was adjusted to <strong>' + final + '/100</strong> — a reduction of ' + Math.round(drop) + ' points from the raw ML score.');
+        else if (final > 75)
+          lines.push('No trust signals were detected to reduce the score. The file exhibits strong indicators of malicious intent.');
+        else if (final > 45)
+          lines.push('Some suspicious characteristics remain after scoring. Manual review by a security analyst is recommended.');
+        else
+          lines.push('The final verdict is <strong>Trusted</strong>. No remediation action is required.');
+        return lines.join(' ');
+      }
+
+      var current  = 0;
+      var state    = 'rise';
+      var riseStep = Math.max(mlRaw / 40, 0.5);
+      var fallStep = Math.max((mlRaw - finalRisk) / 30, 0.5);
+      phaseEl.textContent = 'ML raw score\u2026';
+      explain.textContent = 'Computing ML feature score\u2026';
+
+      function tick() {
+        if (state === 'rise') {
+          current = Math.min(current + riseStep, mlRaw);
+          setGauge(current, colorFor(current));
+          if (current >= mlRaw) {
+            state = 'pause';
+            phaseEl.textContent = 'Applying heuristics\u2026';
+            explain.textContent = 'Evaluating digital signatures, file location, and trust rules\u2026';
+            setTimeout(function() { state = 'fall'; requestAnimationFrame(tick); }, 700);
+          } else { requestAnimationFrame(tick); }
+        } else if (state === 'fall') {
+          current = Math.max(current - fallStep, finalRisk);
+          setGauge(current, colorFor(current));
+          if (current <= finalRisk) {
+            phaseEl.textContent    = 'Final risk';
+            lbl = labelFor(finalRisk);
+            badge.textContent      = lbl[0];
+            badge.style.background = lbl[1];
+            badge.style.color      = lbl[2];
+            explain.innerHTML      = buildExplanation(mlRaw, finalRisk, heuristicNotes);
+            renderHeuristicSteps(buildHeuristicSteps(heuristicNotes, mlRaw, finalRisk));
+          } else { requestAnimationFrame(tick); }
+        }
+      }
+
+      if (mlRaw > 0) {
+        requestAnimationFrame(tick);
+      } else {
+        setGauge(0, '#639922');
+        phaseEl.textContent    = 'Final risk';
+        lbl = labelFor(0);
+        badge.textContent      = lbl[0];
+        badge.style.background = lbl[1];
+        badge.style.color      = lbl[2];
+        explain.innerHTML      = buildExplanation(0, 0, heuristicNotes);
+        renderHeuristicSteps(buildHeuristicSteps(heuristicNotes, 0, 0));
+      }
+    })();
+    </script>
+    {% endif %}
+    {# ── END BEHAVIORAL MODE ── #}
+
+    {# ── ALL OTHER MODES: plain summary ── #}
+    {% if job.report_ui.summary and job.preset_key != 'behavioral' %}
+    <article class="glass report-section">
+      <h2>Analysis Summary</h2>
+      <dl class="rail-list">
+        {% for item in job.report_ui.summary %}
+        <div>
+          <dt>{{ item.label }}</dt>
+          <dd class="{% if item.severity %}risk-{{ item.severity }}{% endif %}">{{ item.value }}</dd>
+        </div>
+        {% endfor %}
+      </dl>
+    </article>
+    {% endif %}
+
+    {% set vt = job.report_ui.vt_section %}
+    {% if vt and (vt.available or vt.error) %}
+    <article class="glass report-section">
+      <h2>VirusTotal File Scan</h2>
+      {% if vt.error %}
+      <p class="meta">{{ vt.error }}</p>
+      {% else %}
+        {% if vt.summary %}
+        <div class="summary-grid">
+          {% for item in vt.summary %}
+          <article class="metric"><span>{{ item.label }}</span><strong>{{ item.value }}</strong></article>
+          {% endfor %}
+        </div>
+        {% endif %}
+        {% if vt.threat_categories or vt.threat_names %}
+        <div class="signal-grid">
+          {% if vt.threat_categories %}
+          <section class="signal-card">
+            <header><h3>Threat Categories</h3><span>{{ vt.threat_categories|length }}</span></header>
+            <ul>{% for item in vt.threat_categories %}<li>{{ item.value }} ({{ item.count }})</li>{% endfor %}</ul>
+          </section>
+          {% endif %}
+          {% if vt.threat_names %}
+          <section class="signal-card">
+            <header><h3>Threat Names</h3><span>{{ vt.threat_names|length }}</span></header>
+            <ul>{% for item in vt.threat_names %}<li>{{ item.value }} ({{ item.count }})</li>{% endfor %}</ul>
+          </section>
+          {% endif %}
+        </div>
+        {% endif %}
+        {% if vt.detections %}
+        <div class="table-wrap">
+          <table class="data-table compact">
+            <thead><tr><th>Engine</th><th>Result</th><th>Category</th><th>Method</th></tr></thead>
+            <tbody>
+              {% for row in vt.detections %}
+              <tr><td>{{ row.engine }}</td><td>{{ row.result }}</td><td>{{ row.category }}</td><td>{{ row.method }}</td></tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        {% endif %}
+      {% endif %}
+    </article>
+    {% endif %}
+
+    {% if job.report_ui.categories %}
+    <article class="glass report-section">
+      <h2>Category Heatmap</h2>
+      <div class="heatmap">
+        {% for row in job.report_ui.categories %}
+        <div class="heat-row" style="--score: {{ row.count }};">
+          <span class="name">{{ row.name }}</span>
+          <span class="value">{{ row.count }}</span>
+        </div>
+        {% endfor %}
+      </div>
+    </article>
+    {% endif %}
+
+    {% set perm = job.report_ui.permissions_section %}
+    {% if perm and perm.available %}
+    <article class="glass report-section">
+      <h2>Android Permissions</h2>
+      <div class="summary-grid">
+        <article class="metric"><span>Dangerous</span><strong>{{ perm.counts.dangerous }}</strong></article>
+        <article class="metric"><span>Special</span><strong>{{ perm.counts.special }}</strong></article>
+        <article class="metric"><span>Info</span><strong>{{ perm.counts.info }}</strong></article>
+      </div>
+      {% if perm.rows %}
+      <div class="table-wrap">
+        <table class="data-table compact">
+          <thead><tr><th>Permission</th><th>State</th></tr></thead>
+          <tbody>
+            {% for row in perm.rows %}
+            <tr><td>{{ row.name }}</td><td><span class="perm-state {{ row.state }}">{{ row.state_label }}</span></td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      {% endif %}
+    </article>
+    {% endif %}
+
+    {% if job.report_ui.mitre_rows %}
+    <article class="glass report-section">
+      <h2>MITRE ATT&amp;CK Mapping</h2>
+      <div class="rules-grid">
+        {% for tactic in job.report_ui.mitre_rows %}
+        <section class="rule-card">
+          <header><h3>{{ tactic.tactic }}</h3><span>{{ tactic.technique_count }} techniques | {{ tactic.score }} score</span></header>
+          <div class="table-wrap">
+            <table class="data-table compact">
+              <thead><tr><th>Technique</th><th>Score</th><th>Matched APIs</th></tr></thead>
+              <tbody>
+                {% for row in tactic.techniques %}
+                <tr><td>{{ row.technique }}</td><td>{{ row.score }}</td><td>{{ row.matched_apis|join(', ') if row.matched_apis else '-' }}</td></tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </section>
+        {% endfor %}
+      </div>
+    </article>
+    {% endif %}
+
+    {% if job.report_ui.interesting_patterns %}
+    <article class="glass report-section">
+      <h2>Interesting String Patterns</h2>
+      <ul class="pattern-list">
+        {% for value in job.report_ui.interesting_patterns %}
+        <li>{{ value }}</li>
+        {% endfor %}
+      </ul>
+    </article>
+    {% endif %}
+
+    {% if job.report_ui.source_pattern_rows %}
+    <article class="glass report-section">
+      <h2>Source Pattern Findings</h2>
+      <div class="rules-grid">
+        {% for row in job.report_ui.source_pattern_rows %}
+        <section class="rule-card">
+          <header><h3>{{ row.file_name }}</h3><span>{{ row.pattern_count }} patterns</span></header>
+          {% if row.categories %}<p class="meta">Categories: {{ row.categories|join(', ') }}</p>{% endif %}
+          {% if row.patterns %}
+          <div class="table-wrap">
+            <table class="data-table compact">
+              <thead><tr><th>Pattern</th></tr></thead>
+              <tbody>{% for pattern in row.patterns %}<tr><td>{{ pattern }}</td></tr>{% endfor %}</tbody>
+            </table>
+          </div>
+          {% endif %}
+        </section>
+        {% endfor %}
+      </div>
+    </article>
+    {% endif %}
+
+    {% if job.report_ui.matched_rules_rows %}
+    <article class="glass report-section">
+      <h2>Matched YARA Rules</h2>
+      <div class="rules-grid">
+        {% for row in job.report_ui.matched_rules_rows %}
+        <section class="rule-card">
+          <header><h3>{{ row.name }}</h3><span>{{ row.count }} hits</span></header>
+          <div class="table-wrap">
+            <table class="data-table compact">
+              <thead><tr><th>Offset</th><th>Pattern</th></tr></thead>
+              <tbody>
+                {% for sample in row.samples %}
+                <tr><td>{{ sample.offset if sample.offset else '-' }}</td><td>{{ sample.pattern }}</td></tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </section>
+        {% endfor %}
+      </div>
+    </article>
+    {% endif %}
+
+    {% if job.report_ui.sections or job.report_ui.extra_panels %}
+    <article class="glass report-section">
+      <h2>Core Findings</h2>
+      <div class="signal-grid">
+        {% for section in job.report_ui.sections %}
+        <section class="signal-card">
+          <header>
+            <h3>{{ section.title }}</h3>
+            <span>{{ section.count }}</span>
+          </header>
+          <ul>
+            {% for item in section["items"] %}
+            <li>{{ item }}</li>
+            {% endfor %}
+          </ul>
+        </section>
+        {% endfor %}
+
+        {% for section in job.report_ui.extra_panels %}
+        <section class="signal-card muted">
+          <header>
+            <h3>{{ section.title }}</h3>
+            <span>{{ section.count }}</span>
+          </header>
+          <ul>
+            {% for item in section["items"] %}
+            <li>{{ item }}</li>
+            {% endfor %}
+          </ul>
+        </section>
+        {% endfor %}
+      </div>
+    </article>
+    {% endif %}
+
+    {% if job.report_ui.windows_api_categories %}
+    <article class="glass report-section">
+      <h2>Windows API Categories</h2>
+      <div class="signal-grid">
+        {% for section in job.report_ui.windows_api_categories %}
+        <section class="signal-card">
+          <header>
+            <h3>{{ section.name }}</h3>
+            <span>{{ section.count }}</span>
+          </header>
+          <ul>
+            {% for api in section.apis %}
+            <li>{{ api }}</li>
+            {% endfor %}
+          </ul>
+        </section>
+        {% endfor %}
+      </div>
+    </article>
+    {% endif %}
+
+    {% if job.report_ui.script_analysis_section and job.report_ui.script_analysis_section.available %}
+    {% set sa = job.report_ui.script_analysis_section %}
+    <article class="glass report-section">
+      <h2>Script Analysis
+        {% if sa.language %}<span class="badge">{{ sa.language }}</span>{% endif %}
+        {% if sa.vbe_encoded %}<span class="badge badge-danger">VBE Encoded</span>{% endif %}
+      </h2>
+      {% if sa.categories %}
+      <div class="signal-grid">
+        {% for cat in sa.categories %}
+        <section class="signal-card">
+          <header><h3>{{ cat.name }}</h3><span>{{ cat.count }}</span></header>
+          <ul>{% for hit in cat.hits %}<li><code>{{ hit }}</code></li>{% endfor %}</ul>
+        </section>
+        {% endfor %}
+      </div>
+      {% endif %}
+      {% if sa.createobject_values %}<h3 style="margin-top:1rem">CreateObject Values</h3><ul class="findings-list">{% for v in sa.createobject_values %}<li><code>{{ v }}</code></li>{% endfor %}</ul>{% endif %}
+      {% if sa.shell_commands %}<h3 style="margin-top:1rem">Shell Commands</h3><ul class="findings-list">{% for cmd in sa.shell_commands %}<li><code>{{ cmd }}</code></li>{% endfor %}</ul>{% endif %}
+      {% if sa.decoded_payload_hints %}<h3 style="margin-top:1rem">Decoded Payload Hints</h3><ul class="findings-list">{% for hint in sa.decoded_payload_hints %}<li><code>{{ hint }}</code></li>{% endfor %}</ul>{% endif %}
+    </article>
+    {% endif %}
+
+  </section>
+  {% endif %}
+
+  {% if job.status == 'completed' and not job.report_loaded and not job.report_load_error %}
+  <article class="glass">
+    <h2>No Report Data</h2>
+    {% if job.report_expected %}
+    <p class="meta">A report was expected, but no readable JSON file was found.</p>
+    {% else %}
+    <p class="meta">This mode can complete without generating a JSON report.</p>
+    {% endif %}
+  </article>
+  {% endif %}
+</section>
+
+<script>
+  function bootResultNotify() {
+    const jobId = {{ job.id|tojson }};
+    const status = String({{ job.status|tojson }} || "").toLowerCase();
+    const sampleName = {{ job.sample_name|tojson }};
+    const statusKey = `qs-job-status:${jobId}`;
+    let previous = "";
+    try { previous = String(window.localStorage.getItem(statusKey) || "").toLowerCase(); } catch (_err) { previous = ""; }
+    if (
+      (previous === "queued" || previous === "running") &&
+      (status === "completed" || status === "failed") &&
+      window.QSNotify && typeof window.QSNotify.analysisFinished === "function"
+    ) {
+      window.QSNotify.analysisFinished({ jobId, status, sampleName, jobUrl: `/jobs/${encodeURIComponent(jobId)}` });
+    }
+    try { window.localStorage.setItem(statusKey, status); } catch (_err) {}
+  }
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", bootResultNotify);
+  } else { bootResultNotify(); }
+</script>
+
+{% if auto_refresh | default(false) %}
+<script>
+  setTimeout(function () { window.location.reload(); }, {{ (refresh_seconds | default(30)) * 1000 }});
+</script>
+{% endif %}
+{% endblock %}
