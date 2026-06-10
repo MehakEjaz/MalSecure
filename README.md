@@ -1,96 +1,49 @@
 <div align="center">
 
-<img width="788" height="528" alt="b08b8a9a-b529-4279-9db4-33bce4ec938c" src="https://github.com/user-attachments/assets/32069584-11ed-4c51-a136-27a040602c56" />
+<img width="488" height="328" alt="b08b8a9a-b529-4279-9db4-33bce4ec938c" src="https://github.com/user-attachments/assets/32069584-11ed-4c51-a136-27a040602c56" />
 
 ### MALSECURE: Smart Malware Detection and Classification Using Static, ML-Based Behavioral, and Heuristic Analysis
-
-<table>
-  <!-- Row 1: 3 Logos -->
-  <tr>
-    <td align="center" valign="middle">
-      <a href="#"><img src="https://github.com/user-attachments/assets/937a9943-d0b2-4ad0-a3bf-aa5622713f73" width="200" alt="NED University" /></a>
-    </td>
-    <td align="center" valign="middle">
-      <a href="#"><img src="https://github.com/user-attachments/assets/2a1dbb62-4575-44bb-a6d7-4257c5c14445" width="200" alt="EMBER 2024" /></a>
-    </td>
-  </tr>
-  <!-- Row 2: 2 Logos -->
-  <tr>
-    <td align="center" valign="middle">
-      <a href="#"><img src="https://github.com/user-attachments/assets/7828778e-458a-42a5-a478-92569148e1f3" width="200" alt="MITRE ATT&CK" /></a>
-    </td>
-    <td align="center" valign="middle" colspan="2">
-      <a href="#"><img src="https://github.com/user-attachments/assets/86dfcc7e-4c2c-4794-aaed-0891f10151bf" width="200" alt="VirusTotal" /></a>
-    </td>
-  </tr>
-</table>
 
 **Final Year Project — Department of Computer Science & IT, NED University of Engineering & Technology**
 
 Group: CS-22054 | Batch: 2022 | Supervised by Dr. Muhammad Mubashir Khan
 
----
+<table border="0" cellpadding="10" cellspacing="0">
+  <!-- Single Row for All Logos -->
+  <tr>
+    <td align="center" valign="middle" style="border: none;">
+      <a href="#"><img src="https://github.com/user-attachments/assets/937a9943-d0b2-4ad0-a3bf-aa5622713f73" width="130" alt="NED University" /></a>
+    </td>
+    <td align="center" valign="middle" style="border: none;">
+      <a href="#"><img src="https://github.com/user-attachments/assets/2a1dbb62-4575-44bb-a6d7-4257c5c14445" width="140" alt="EMBER 2024" /></a>
+    </td>
+    <td align="center" valign="middle" style="border: none;">
+      <a href="#"><img src="https://github.com/user-attachments/assets/7828778e-458a-42a5-a478-92569148e1f3" width="150" alt="MITRE ATT&CK" /></a>
+    </td>
+    <td align="center" valign="middle" style="border: none;">
+      <a href="#"><img src="https://github.com/user-attachments/assets/86dfcc7e-4c2c-4794-aaed-0891f10151bf" width="160" alt="VirusTotal" /></a>
+    </td>
+  </tr>
+</table>
 
 
-https://github.com/user-attachments/assets/0cf6b26b-b7e4-440e-9f88-dea6852f4f80
+
+
+
+
+
+
+
 
 
 </div>
 
 ---
-
 ## 📺 Promotional Video
 
-<!-- 🎬 INSERT PROMOTIONAL VIDEO THUMBNAIL + LINK HERE -->
-<!-- Option A — YouTube embed (replace YOUR_VIDEO_ID): -->
-<!--
-[![MalSecure Promo Video](https://img.youtube.com/vi/YOUR_VIDEO_ID/maxresdefault.jpg)](https://www.youtube.com/watch?v=YOUR_VIDEO_ID)
--->
-<!-- Option B — Local video thumbnail linking to hosted video: -->
-<!--
-[![Watch the video](assets/promo_thumbnail.png)](https://your-video-link.com)
--->
+> 🔗 **Live Link:** [Watch the MalSecure Video on LinkedIn](https://www.linkedin.com/feed/update/urn:li:activity:7456982564512178176/) 🎬
 
-> 🎬 **[Click here to watch the MalSecure Promotional Video](#)** — Replace `#` with your actual video link (YouTube / Google Drive / etc.)
 
----
-
-## 🎥 Project Demo — Analysis Walkthroughs
-
-The demos below walk through each analysis mode MalSecure supports on real malware files.
-
-<!-- 📸 INSERT DEMO VIDEO THUMBNAILS / GIFs FOR EACH ANALYSIS TYPE BELOW -->
-<!-- Recommended format: Screenshot or GIF with a short caption per analysis -->
-
-| Analysis Type | Demo |
-|---|---|
-| 🔍 Standard Static Analysis | <!-- INSERT GIF/IMAGE --> *[Screenshot / GIF Placeholder]* |
-| 🤖 ML Behavioral Scan (EMBER) | <!-- INSERT GIF/IMAGE --> *[Screenshot / GIF Placeholder]* |
-| 📄 Document Malware Analysis | <!-- INSERT GIF/IMAGE --> *[Screenshot / GIF Placeholder]* |
-| 📦 Archive & Packer Detection | <!-- INSERT GIF/IMAGE --> *[Screenshot / GIF Placeholder]* |
-| 🌐 Domain / IOC Extraction | <!-- INSERT GIF/IMAGE --> *[Screenshot / GIF Placeholder]* |
-| 🗺️ MITRE ATT&CK Mapping | <!-- INSERT GIF/IMAGE --> *[Screenshot / GIF Placeholder]* |
-| 🔬 VirusTotal Integration | <!-- INSERT GIF/IMAGE --> *[Screenshot / GIF Placeholder]* |
-
----
-
-## 📖 Table of Contents
-
-- [About the Project](#-about-the-project)
-- [Key Features](#-key-features)
-- [System Architecture](#-system-architecture)
-- [Analysis Modules](#-analysis-modules)
-- [Technology Stack](#-technology-stack)
-- [Screenshots](#-screenshots)
-- [Installation — Windows](#-installation--windows)
-- [Installation — Linux / Kali](#-installation--linux--kali)
-- [Docker Setup](#-docker-setup)
-- [Running the Application](#-running-the-application)
-- [VirusTotal API Setup](#-virustotal-api-key-setup)
-- [CLI Usage](#-cli-usage)
-- [Troubleshooting](#-troubleshooting)
-- [Project Team](#-project-team)
-- [Acknowledgements](#-acknowledgements)
 
 ---
 
@@ -122,49 +75,53 @@ MalSecure also integrates **VirusTotal** for external threat intelligence and **
 - 🔍 **IOC Extraction** — Extracts IPs, domains, URLs, and file paths from analyzed samples
 - 📊 **YARA Rule Matching** — Detects known malware signatures using community YARA rules
 - 📑 **Downloadable Reports** — Structured JSON malware reports for every scan
-- 🖥️ **Modern Web UI** — Clean Streamlit dashboard with queue-based job management
+- 🖥️ **Modern Web UI** — Clean Interactive dashboard with queue-based job management
 - ⌨️ **CLI Support** — Full command-line interface for advanced users
-- 🐳 **Docker Support** — Containerized deployment for easy cross-platform use
+
 
 ---
 
 ## 🏗️ System Architecture
 
-<!-- 📸 INSERT ARCHITECTURAL DIAGRAM IMAGE HERE -->
-<!-- Use the diagram from Chapter 3 of the report -->
-<!-- Example: <img src="assets/architecture.png" alt="MalSecure Architecture" width="90%"> -->
-
-> *[Architecture Diagram Placeholder — insert `assets/architecture.png`]*
 
 MalSecure is built on a **modular, layered architecture**:
 
-```
-User / File Input
-       │
-       ▼
-┌─────────────────────────────────────────────┐
-│              Static Analysis Layer           │
-│  PE Parser │ Doc Parser │ Archive Parser     │
-│  Hash Extraction │ VirusTotal │ MITRE Mapping│
-└─────────────────────┬───────────────────────┘
-                      │
-                      ▼
-┌─────────────────────────────────────────────┐
-│         ML Behavioral Analysis Layer         │
-│  Feature Extraction → EMBER 2024 Model       │
-│  Malware Family │ Confidence Score           │
-└─────────────────────┬───────────────────────┘
-                      │
-                      ▼
-┌─────────────────────────────────────────────┐
-│           Heuristic Analysis Layer           │
-│  Rule-Based Scoring + ML Probability Fusion  │
-│  Risk Score → Low / Medium / High / Critical │
-└─────────────────────┬───────────────────────┘
-                      │
-                      ▼
-              Final Malware Report
-         (JSON + Dashboard Display)
+
+
+```mermaid
+graph LR
+    Start([Start]) --> UserInput[User Inputs File]
+    UserInput --> TypeDecision{Analysis Type}
+
+    %% --- STATIC PATH ---
+    TypeDecision -->|Static| Static[Static Analysis]
+    Static --> FeatExt[Feature Extraction & MITRE Map]
+    FeatExt --> VTInt[VirusTotal Integration]
+    VTInt --> VTLinked{VT Linked?}
+    VTLinked -->|No| NoVT[No VT Integration]
+    VTLinked -->|Yes| StaticOut([Static Out])
+    NoVT --> StaticOut
+
+    %% --- BEHAVIORAL PATH ---
+    TypeDecision -->|Behavioral| Behav[Behavioral Analysis]
+    Behav --> ExtBehav[Extract Features]
+    ExtBehav --> EmberModel[Ember 2024 Model]
+    EmberModel --> BehavOut([Behavioral Out])
+
+    %% --- HEURISTIC PATH ---
+    TypeDecision -->|Heuristic| Heur[Heuristic Analysis]
+    Heur --> StaticRes[Static Rules Applied]
+    StaticRes --> CombineML[Combine ML Probabilities]
+    CombineML --> HeurOut([Heuristic Out])
+
+    %% --- EVALUATION & REPORT ---
+    StaticOut --> ThreatEval{Threat Evaluation}
+    BehavOut --> ThreatEval
+    HeurOut --> ThreatEval
+    
+    ThreatEval --> DownRep[Download Report]
+    DownRep --> End([End])
+    
 ```
 
 ---
@@ -177,11 +134,8 @@ User / File Input
 |---|---|
 | Basic File Analysis | File type, size, headers, strings, imports/exports |
 | Hash-Based Scanning | MD5, SHA1, SHA256 generation and known-hash matching |
-| Resource Analysis | Embedded resources, hidden payloads in PE executables |
 | Document Analysis | DOCX / PDF / XLS / RTF — macros, scripts, suspicious URLs |
 | Archive Analysis | ZIP / RAR — nested extraction and recursive scanning |
-| File Signature Analysis | Magic-byte verification, mismatched extension detection |
-| File Carving | Embedded file recovery from binary blobs |
 | IOC Extraction | IP addresses, domains, URLs, file paths |
 | MITRE ATT&CK Mapping | API-to-technique correlation against the ATT&CK database |
 | Programming Language Detection | Identifies the language/framework of suspicious executables |
@@ -206,7 +160,6 @@ Rule-based engine evaluates:
 - High-entropy sections (packed/encrypted code)
 - Macro auto-execution triggers in documents
 - Obfuscated and encoded payloads
-- Anti-debugging / anti-VM techniques
 
 Heuristic scores are fused with ML probabilities for a final confidence-weighted risk evaluation.
 
@@ -216,15 +169,15 @@ Heuristic scores are fused with ML probabilities for a final confidence-weighted
 
 | Layer | Technologies |
 |---|---|
-| Frontend UI | React.js, Tailwind CSS, JavaScript (web layer) + Streamlit (analysis GUI) |
+| Frontend UI | React.js, Tailwind CSS, JavaScript |
 | Backend | Python 3.10+, REST APIs |
 | Static Analysis | `hashlib`, `regex`, `yara-python`, `lief`, `oletools`, `pefile` |
 | Machine Learning | `scikit-learn`, `LightGBM`, `numpy`, `pandas` — EMBER 2024 model |
 | Heuristic Engine | Custom rule-based scoring, entropy analysis |
 | Queue Management | Python-based task queue |
 | Data Storage | JSON-based scan reports |
-| External APIs | VirusTotal API v3 |
-| Deployment | Local Python environment / Docker |
+| External APIs | VirusTotal API  |
+| Deployment | Local Python environment  |
 
 ---
 
@@ -232,31 +185,43 @@ Heuristic scores are fused with ML probabilities for a final confidence-weighted
 
 <!-- 📸 INSERT SCREENSHOTS BELOW — replace placeholder text with <img> tags -->
 
-**Dashboard / Landing Page**
+**Landing Page-Analysis Profile Selection**
 <!-- <img src="assets/screenshots/landing.png" alt="Landing Page" width="90%"> -->
-> *[Screenshot Placeholder — Landing Page]*
-
-**Analysis Profile Selection**
-<!-- <img src="assets/screenshots/analysis_profiles.png" alt="Analysis Profiles" width="90%"> -->
-> *[Screenshot Placeholder — Analysis Profiles]*
+<img width="1068" height="643" alt="8b22badc-ec57-4709-b9ca-15e90db8ed5c" src="https://github.com/user-attachments/assets/15ff8f22-1df4-466b-a185-a865e1215b75" />
 
 **VirusTotal Integration Results**
 <!-- <img src="assets/screenshots/virustotal.png" alt="VirusTotal Results" width="90%"> -->
-> *[Screenshot Placeholder — VirusTotal Results]*
+<img width="1128" height="404" alt="56ec70e0-eb4a-4857-a17e-b4728205e8ee" src="https://github.com/user-attachments/assets/b6b37891-03f1-4ad5-aa9e-87d9a8ad5f29" />
 
 **MITRE ATT&CK Heatmap**
 <!-- <img src="assets/screenshots/mitre_heatmap.png" alt="MITRE Heatmap" width="90%"> -->
-> *[Screenshot Placeholder — MITRE ATT&CK Heatmap]*
+<img width="1132" height="394" alt="48ba9cff-4758-4235-aee3-ff6cfd77d217" src="https://github.com/user-attachments/assets/53ede7e3-075f-427e-92b6-74a9b425ee2a" />
+
+<img width="1138" height="412" alt="4436a101-c5f5-48a0-812a-086751c0f1c5" src="https://github.com/user-attachments/assets/d9c6a980-ace4-4bd3-b8ad-04688b87a67c" />
+
+**Document Malware Analysis Output**
+<!-- <img src="assets/screenshots/ml_output.png" alt="ML Output" width="90%"> -->
+<img width="1144" height="454" alt="50fc652d-b33f-4659-a1f7-8fb2330a9fd9" src="https://github.com/user-attachments/assets/893be51a-4b4c-49d5-b972-77adfbd98475" />
+
+**Domain / IOC Extraction Output**
+<!-- <img src="assets/screenshots/ml_output.png" alt="ML Output" width="90%"> -->
+<img width="1145" height="445" alt="a9ff580b-4b35-49d4-b48e-0421de0634a8" src="https://github.com/user-attachments/assets/3ec637b7-dcf1-4e8b-a290-0132eb742578" />
+
+**Archive & Packer Analysis Output**
+<!-- <img src="assets/screenshots/ml_output.png" alt="ML Output" width="90%"> -->
+<img width="1139" height="471" alt="e52d7a1e-e02f-4155-b1e0-00f705e26c49" src="https://github.com/user-attachments/assets/955dc572-bda7-4d9a-b5b5-89a5e2c987e0" />
+<img width="1143" height="506" alt="cb1f4a85-064e-483f-9f36-50cb72dc8f5b" src="https://github.com/user-attachments/assets/0d7fa45d-a102-4e31-844e-4295aca4407f" />
 
 **ML Behavioral Analysis Output**
 <!-- <img src="assets/screenshots/ml_output.png" alt="ML Output" width="90%"> -->
-> *[Screenshot Placeholder — ML Behavioral Output]*
+<img width="1144" height="454" alt="50fc652d-b33f-4659-a1f7-8fb2330a9fd9" src="https://github.com/user-attachments/assets/893be51a-4b4c-49d5-b972-77adfbd98475" />
 
 **YARA Rule Matches**
 <!-- <img src="assets/screenshots/yara.png" alt="YARA Rules" width="90%"> -->
-> *[Screenshot Placeholder — YARA Matches]*
+<img width="1131" height="481" alt="de901263-4689-46b6-a63d-81290e7a19fc" src="https://github.com/user-attachments/assets/ccbde864-d16e-4cf3-a635-78314c678fbc" />
 
 ---
+
 
 ## 💻 Installation — Windows
 
@@ -280,8 +245,8 @@ cd MalSecure
 ### Step 2 — Create and Activate Virtual Environment
 
 ```cmd
-python -m venv sc0pe_venv
-sc0pe_venv\Scripts\activate
+python -m venv Malsec_venv
+Malsec_venv\Scripts\activate
 ```
 
 > **If you get a scripts execution policy error**, run this once as Administrator in PowerShell:
@@ -295,13 +260,12 @@ sc0pe_venv\Scripts\activate
 ```cmd
 pip install --upgrade pip setuptools wheel
 pip install -r requirements.txt
-pip install streamlit watchdog pandas
 ```
 
 ### Step 4 — Configure VirusTotal API Key
 
 ```cmd
-python qu1cksc0pe.py --key_init
+python Malsecure.py --key_init
 ```
 
 You will be prompted to enter your VirusTotal API key. Get a free key at [virustotal.com](https://www.virustotal.com).
@@ -310,19 +274,10 @@ You will be prompted to enter your VirusTotal API key. Get a free key at [virust
 
 **GUI Mode (Streamlit):**
 ```cmd
-streamlit run gui.py
-```
-Then open your browser at `http://localhost:8501`
-
-**Alternative GUI entry point:**
-```cmd
 python Malsecure.py --ui
 ```
+Then open your browser at `http://localhost:5055`
 
-**CLI Mode:**
-```cmd
-python qu1cksc0pe.py --file path\to\suspicious\file.exe
-```
 
 ### Step 6 — Deactivate Environment (when done)
 
@@ -381,7 +336,7 @@ pip install -r requirements.txt
 ### Step 5 — Configure VirusTotal API Key
 
 ```bash
-python3 qu1cksc0pe.py --key_init
+python3 Malsecure.py --key_init
 ```
 
 Enter your VirusTotal API key when prompted.
@@ -390,14 +345,11 @@ Enter your VirusTotal API key when prompted.
 
 **GUI Mode (Streamlit):**
 ```bash
-streamlit run gui.py
+python3 Malsecure.py --ui
 ```
-Then open your browser at `http://localhost:8501`
+Then open your browser at `http://localhost:5055`
 
-**CLI Mode:**
-```bash
-python3 qu1cksc0pe.py --file /path/to/suspicious/file
-```
+
 
 ### Step 7 — Deactivate Environment (when done)
 
@@ -407,36 +359,7 @@ deactivate
 
 ---
 
-## 🐳 Docker Setup
-
-MalSecure includes a pre-built Docker image for easy, environment-independent deployment.
-
-### Load the Docker Image (Linux)
-
-```bash
-docker load -i quickscope.tar
-docker run -d -p 8501:8501 --name quickscope-live quickscope-app
-```
-
-### Start / Restart an Existing Container
-
-```bash
-docker start -ai quickscope-live
-```
-
-Then open your browser at `http://localhost:8501`.
-
----
-
-## ▶️ Running the Application
-
-### Web UI (Recommended)
-
-```bash
-streamlit run gui.py
-```
-
-Open `http://localhost:8501` in your browser. From the dashboard you can:
+From the dashboard you can:
 
 1. **Upload** a suspicious file (EXE, DLL, PDF, DOCX, ZIP, RAR, and more)
 2. **Select** an analysis profile (Standard, Document, Archive, Packer Detect, ML Behavioral, IOC, Language)
@@ -448,7 +371,7 @@ Open `http://localhost:8501` in your browser. From the dashboard you can:
 | Profile | What It Does |
 |---|---|
 | **Standard Analysis** | Full static triage — MITRE mapping, VT lookup, YARA, IOC extraction |
-| **Document** | Macro, embedded script, and exploit detection in DOCX/PDF/XLS/RTF |
+| **Document** | Macro and ioc detection in DOCX/PDF/XLS |
 | **Archive** | Nested IOC/YARA scan of ZIP/RAR files |
 | **Packer Detect** | Entropy-based packer and obfuscator detection |
 | **Domain / IOC** | URL, IP, domain, and file-path extraction |
@@ -456,6 +379,7 @@ Open `http://localhost:8501` in your browser. From the dashboard you can:
 | **ML Behavioral Scan** | EMBER 2024 model — risk score, malware family, confidence |
 
 ---
+
 
 ## 🔑 VirusTotal API Key Setup
 
@@ -469,10 +393,10 @@ MalSecure uses the **VirusTotal Public API v3** for hash-based malware reputatio
 
 ```bash
 # Windows
-python qu1cksc0pe.py --key_init
+python Malsecure.py --key_init
 
 # Linux
-python3 qu1cksc0pe.py --key_init
+python3 Malsecure.py --key_init
 ```
 
 Enter your key when prompted. It will be saved locally in the project's environment configuration.
@@ -487,31 +411,20 @@ MalSecure supports a full CLI mode for advanced users and scripted pipelines.
 
 ```bash
 # Basic file analysis
-python3 qu1cksc0pe.py --file suspicious.exe
+python3 Malsecure.py --file suspicious.exe --analyze
+
+# Hash scan
+python3 Malsecure.py --file suspicious.exe --hashscan
 
 # Document analysis
-python3 qu1cksc0pe.py --document malicious.docx
+python3 Malsecure.py --file malicious.docx --docs
 
 # Archive analysis  
-python3 qu1cksc0pe.py --archive packed.zip
-
-# PCAP / network artifact analysis
-python3 qu1cksc0pe.py --pcap capture.pcap
-
-# Analyze an Android APK
-python3 qu1cksc0pe.py --apk app.apk
-
-# Packer detection
-python3 qu1cksc0pe.py --packer target.exe
-
-# Domain / IOC extraction
-python3 qu1cksc0pe.py --domain-info sample.bin
+python Malsecure.py --file suspicious_archive_file --archive
 
 # Set VirusTotal key
-python3 qu1cksc0pe.py --key_init
+python3 Malsecure.py --key_init
 ```
-
-For the full list of CLI commands, refer to the upstream [Qu1cksc0pe documentation](https://github.com/CYB3RMX/Qu1cksc0pe).
 
 ---
 
@@ -522,9 +435,7 @@ For the full list of CLI commands, refer to the upstream [Qu1cksc0pe documentati
 | Issue | Solution |
 |---|---|
 | `Scripts is disabled on this system` | Run `Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser` in PowerShell as Admin |
-| `ModuleNotFoundError` | Ensure your venv is activated: `sc0pe_venv\Scripts\activate` |
-| `streamlit: command not found` | Install with `pip install streamlit` inside the venv |
-| Port 8501 already in use | Run `streamlit run gui.py --server.port 8502` |
+| `ModuleNotFoundError` | Ensure your venv is activated: `Malsec_venv\Scripts\activate` |
 
 ### Linux
 
@@ -533,15 +444,9 @@ For the full list of CLI commands, refer to the upstream [Qu1cksc0pe documentati
 | `python3.11-dev: Unable to locate package` | Use `python3-dev` instead — it matches your installed Python version |
 | `yara-python` build failure | Install system YARA first: `sudo apt install yara libyara-dev` |
 | `BrokenPipeError` on first GUI launch | This is a known Streamlit pipe issue on first run — simply re-run `streamlit run gui.py` |
-| VirusTotal results not showing | Run `python3 qu1cksc0pe.py --key_init` and enter a valid API key |
+| VirusTotal results not showing | Run `python3 Malsecure.py --key_init` and enter a valid API key |
 | Permission denied on Linux | Run with `sudo` or ensure you own the project directory |
 
-### Docker
-
-| Issue | Solution |
-|---|---|
-| Container exits immediately | Use `docker start -ai quickscope-live` to run interactively |
-| Port not accessible | Ensure `-p 8501:8501` was used when running the container |
 
 ---
 
@@ -566,7 +471,6 @@ We extend our gratitude to:
 
 - **Dr. Muhammad Mubashir Khan** for his guidance, constructive feedback, and continuous mentorship throughout this project.
 - **Miss Sadia Arshad** for her support, attention to detail, and invaluable advice in refining the MalSecure toolkit.
-- The open-source community behind **[Qu1cksc0pe](https://github.com/CYB3RMX/Qu1cksc0pe)**, **EMBER**, **YARA**, **VirusTotal**, and **MITRE ATT&CK** — MalSecure builds upon this ecosystem.
 - **NED University of Engineering & Technology**, Department of Computer Science & Information Technology.
 
 ---
@@ -581,9 +485,9 @@ This project is submitted in partial fulfillment of the requirements for the **B
 
 <div align="center">
 
-Made with 🛡️ by Team CS-22054 · NED University · 2026
+By Team CS-22054 · NED University · 2026
 
-<!-- 📸 OPTIONAL: Add NED University logo here -->
+<img width="225" height="225" alt="images" src="https://github.com/user-attachments/assets/fb072bc3-e0f4-47a8-b20b-5bb8a2df85a5" />
 <!-- <img src="assets/ned_logo.png" height="60"> -->
 
 </div>
