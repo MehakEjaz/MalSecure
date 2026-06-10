@@ -200,8 +200,7 @@ Heuristic scores are fused with ML probabilities for a final confidence-weighted
 <img width="1138" height="412" alt="4436a101-c5f5-48a0-812a-086751c0f1c5" src="https://github.com/user-attachments/assets/d9c6a980-ace4-4bd3-b8ad-04688b87a67c" />
 
 **Document Malware Analysis Output**
-<!-- <img src="assets/screenshots/ml_output.png" alt="ML Output" width="90%"> -->
-<img width="1144" height="454" alt="50fc652d-b33f-4659-a1f7-8fb2330a9fd9" src="https://github.com/user-attachments/assets/893be51a-4b4c-49d5-b972-77adfbd98475" />
+<img width="1145" height="445" alt="a9ff580b-4b35-49d4-b48e-0421de0634a8" src="https://github.com/user-attachments/assets/1b5f683b-ba40-4991-ad02-2e967ace9edb" />
 
 **Domain / IOC Extraction Output**
 <!-- <img src="assets/screenshots/ml_output.png" alt="ML Output" width="90%"> -->
